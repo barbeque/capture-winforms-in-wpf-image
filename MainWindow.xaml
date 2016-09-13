@@ -4,18 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WinFormsBufferingDemo"
+        xmlns:utils="clr-namespace:WinFormsBufferingDemo.Utils"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+        <utils:AirspaceOverlay>
+            <utils:AirspaceOverlay.OverlayChild>
+                <Image Name="_buf"/>
+            </utils:AirspaceOverlay.OverlayChild>
 
-        <WindowsFormsHost Name="_host" >
-            <local:AnimatingGuy x:Name="_winformsControl"/>
-        </WindowsFormsHost>
-
-        <Image Grid.Column="1" Name="_buf"/>
+            <WindowsFormsHost Name="_host" >
+                <local:AnimatingGuy x:Name="_winformsControl"/>
+            </WindowsFormsHost>
+        </utils:AirspaceOverlay>
     </Grid>
 </Window>

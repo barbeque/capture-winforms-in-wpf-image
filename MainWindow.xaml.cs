@@ -37,7 +37,7 @@ namespace WinFormsBufferingDemo
                     _winformsControl.DrawToBitmap(bitmap, _winformsControl.Bounds);
 
                     bitmap.Save(_memoryStream, System.Drawing.Imaging.ImageFormat.Bmp);
-                    _memoryStream.Position = 0; // seek back
+                    _memoryStream.Position = 0; // seek back                    
 
                     var wpfBitmap = new BitmapImage();
                     wpfBitmap.BeginInit();
