@@ -24,14 +24,11 @@ namespace WinFormsBufferingDemo
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MemoryStream _memoryStream;
         private System.Drawing.Bitmap _legacyRenderTarget;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            //_memoryStream = new MemoryStream();
 
             _winformsControl.Paint += (s, e) =>
             {
@@ -39,8 +36,9 @@ namespace WinFormsBufferingDemo
 
                 if(_legacyRenderTarget == null)
                 {
-                    // Keep the same backbuffer forever
+                    // Keep the same backbuffer forever, no reason to recreate it with every hit
                     _legacyRenderTarget = new System.Drawing.Bitmap(_winformsControl.Width, _winformsControl.Height);
+                    // TODO: Will make small leak when this window is disposed
                 }
 
                 // Screenshot the WinForms control into a WinForms bitmap
@@ -48,7 +46,6 @@ namespace WinFormsBufferingDemo
 
                 // Wire up WPF to consume that WinForms bitmap using Interop Bitmap.
                 // Consume that backbuffer forever
-                //(_buf.Source as InteropBitmap).Dispose();
                 using (var hBitmap = new HBitmapWrapper(_legacyRenderTarget))
                 {
                     _buf.Source = (InteropBitmap)Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
