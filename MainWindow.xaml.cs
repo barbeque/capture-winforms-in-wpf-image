@@ -21,32 +21,36 @@ namespace WinFormsBufferingDemo
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MemoryStream _memoryStream;
+
         public MainWindow()
         {
             InitializeComponent();
 
+            _memoryStream = new MemoryStream();
+
             _winformsControl.Paint += (s, e) =>
             {
                 // Doo doo doo
-                using(var bitmap = new System.Drawing.Bitmap(_winformsControl.Width, _winformsControl.Height))
+                using (var bitmap = new System.Drawing.Bitmap(_winformsControl.Width, _winformsControl.Height))
                 {
                     _winformsControl.DrawToBitmap(bitmap, _winformsControl.Bounds);
 
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
-                        memoryStream.Position = 0; // seek back
-                        var wpfBitmap = new BitmapImage();
-                        wpfBitmap.BeginInit();
+                    bitmap.Save(_memoryStream, System.Drawing.Imaging.ImageFormat.Bmp);
+                    _memoryStream.Position = 0; // seek back
 
-                        wpfBitmap.CacheOption = BitmapCacheOption.OnLoad;
-                        wpfBitmap.StreamSource = memoryStream;
+                    var wpfBitmap = new BitmapImage();
+                    wpfBitmap.BeginInit();
 
-                        wpfBitmap.EndInit();
+                    wpfBitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    wpfBitmap.StreamSource = _memoryStream;
 
-                        // Put it on the back buffer
-                        _buf.Source = wpfBitmap;
-                    }
+                    wpfBitmap.EndInit();
+
+                    // Put it on the back buffer
+                    _buf.Source = wpfBitmap;
+
+                    _memoryStream.Position = 0;
                 }
             };
         }

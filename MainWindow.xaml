@@ -12,7 +12,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <WindowsFormsHost Name="_host">
+        <WindowsFormsHost Name="_host" >
             <local:AnimatingGuy x:Name="_winformsControl"/>
         </WindowsFormsHost>
 
