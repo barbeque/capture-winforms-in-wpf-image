@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Grid>
+        <!--<Grid>
             <utils:AirspaceOverlay>
                 <utils:AirspaceOverlay.OverlayChild>
                     <Image Name="_buf"/>
@@ -18,7 +18,16 @@
                     <local:AnimatingGuy x:Name="_winformsControl"/>
                 </WindowsFormsHost>
             </utils:AirspaceOverlay>
-        </Grid>
-        <Button Width="100" Height="30" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Hello World</Button>
+        </Grid>-->
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <WindowsFormsHost x:Name="_host">
+            <local:AnimatingGuy x:Name="_winformsControl"/>
+        </WindowsFormsHost>
+        <Image Grid.Column="1" Name="_buf"/>
     </Grid>
 </Window>
