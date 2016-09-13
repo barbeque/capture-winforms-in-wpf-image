@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WinFormsBufferingDemo
@@ -20,15 +14,17 @@ namespace WinFormsBufferingDemo
             InitializeComponent();
 
             _timer = new Timer();
-            _timer.Interval = 20;
+            _timer.Interval = 6;
             _timer.Tick += OnTick;
 
             _timer.Start();
+
+            this.Paint += AnimatingGuy_Paint;
         }
 
-        private void OnTick(object sender, EventArgs e)
+        private void AnimatingGuy_Paint(object sender, PaintEventArgs e)
         {
-            using (var g = this.CreateGraphics())
+            using (var g = e.Graphics)
             {
                 // clear the entire thing
                 g.FillRectangle(Brushes.AliceBlue, Bounds);
@@ -42,8 +38,12 @@ namespace WinFormsBufferingDemo
                 var p = new Pen(Brushes.Red, 5);
                 g.DrawLine(p, GetMidpoint(), new Point((int)targetX, (int)targetY));
             }
+        }
 
+        private void OnTick(object sender, EventArgs e)
+        {
             i++;
+            this.Invalidate();
         }
 
         private double DegreesToRadians(int degrees)

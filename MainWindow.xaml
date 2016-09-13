@@ -12,8 +12,10 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <WindowsFormsHost>
-            <local:AnimatingGuy/>
+        <WindowsFormsHost Name="_host">
+            <local:AnimatingGuy x:Name="_winformsControl"/>
         </WindowsFormsHost>
+
+        <Image Grid.Column="1" Name="_buf"/>
     </Grid>
 </Window>
